@@ -15,11 +15,13 @@ class SageMaker(AWSService):
         self.sagemaker_notebook_instances = []
         self.sagemaker_models = []
         self.sagemaker_training_jobs = []
+        self.sagemaker_domains = []
         self.endpoint_configs = {}
         self.__threading_call__(self._list_notebook_instances)
         self.__threading_call__(self._list_models)
         self.__threading_call__(self._list_training_jobs)
         self.__threading_call__(self._list_endpoint_configs)
+        self.__threading_call__(self._list_domains)
         self.__threading_call__(self._describe_model, self.sagemaker_models)
         self.__threading_call__(
             self._describe_notebook_instance, self.sagemaker_notebook_instances
@@ -30,6 +32,7 @@ class SageMaker(AWSService):
         self.__threading_call__(
             self._describe_endpoint_config, self.endpoint_configs.values()
         )
+        self.__threading_call__(self._describe_domain, self.sagemaker_domains)
         self._list_tags_for_resource()
 
     def _list_notebook_instances(self, regional_client):
@@ -225,6 +228,15 @@ class SageMaker(AWSService):
             logger.error(
                 f"{regional_client.region} -- {error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
             )
+        try:
+            for domain in self.sagemaker_domains:
+                regional_client = self.regional_clients[domain.region]
+                response = regional_client.list_tags(ResourceArn=domain.arn)["Tags"]
+                domain.tags = response
+        except Exception as error:
+            logger.error(
+                f"{regional_client.region} -- {error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
+            )
 
     def _list_endpoint_configs(self, regional_client):
         logger.info("SageMaker - listing endpoint configs...")
@@ -274,6 +286,54 @@ class SageMaker(AWSService):
                 f"{regional_client.region} -- {error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
             )
 
+    def _list_domains(self, regional_client):
+        """
+        Lists all SageMaker Domains in the region.
+        Iterates through pages of results to ensure all domains are captured.
+        """
+        logger.info("SageMaker - listing domains...")
+        try:
+            # Pagination for listing domains
+            domains_paginator = regional_client.get_paginator("list_domains")
+            for page in domains_paginator.paginate():
+                for domain in page["Domains"]:
+                    if not self.audit_resources or (
+                        is_resource_filtered(domain["DomainArn"], self.audit_resources)
+                    ):
+                        self.sagemaker_domains.append(
+                            Domain(
+                                arn=domain["DomainArn"],
+                                id=domain["DomainId"],
+                                name=domain["DomainName"],
+                                status=domain["Status"],
+                                region=regional_client.region,
+                            )
+                        )
+        except Exception as error:
+            logger.error(
+                f"{regional_client.region} -- {error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
+            )
+
+    def _describe_domain(self, domain):
+        """
+        Retrieves detailed configuration for a SageMaker Domain.
+        This includes networking and encryption settings required for security checks.
+        """
+        logger.info("SageMaker - describing domain...")
+        try:
+            regional_client = self.regional_clients[domain.region]
+            domain_details = regional_client.describe_domain(DomainId=domain.id)
+            domain.auth_mode = domain_details.get("AuthMode")
+            domain.app_network_access_type = domain_details.get("AppNetworkAccessType")
+            domain.vpc_id = domain_details.get("VpcId")
+            domain.subnet_ids = domain_details.get("SubnetIds")
+            domain.kms_key_id = domain_details.get("KmsKeyId")
+
+        except Exception as error:
+            logger.error(
+                f"{regional_client.region} -- {error.__class__.__name__}[{error.__traceback__.tb_lineno}]: {error}"
+            )
+
 
 class NotebookInstance(BaseModel):
     name: str
@@ -317,3 +377,17 @@ class EndpointConfig(BaseModel):
     arn: str
     production_variants: list[ProductionVariant] = []
     tags: Optional[list] = []
+
+
+class Domain(BaseModel):
+    arn: str
+    id: str
+    name: str
+    status: str
+    region: str
+    tags: Optional[list] = []
+    auth_mode: Optional[str] = None
+    app_network_access_type: Optional[str] = None
+    subnet_ids: Optional[list] = []
+    vpc_id: Optional[str] = None
+    kms_key_id: Optional[str] = None
