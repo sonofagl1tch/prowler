@@ -1,0 +1,32 @@
+{
+  "Provider": "aws",
+  "CheckID": "sagemaker_domain_vpc_only_access",
+  "CheckTitle": "Check if SageMaker Studio domain is configured with VPC-only network access",
+  "CheckType": [],
+  "ServiceName": "sagemaker",
+  "SubServiceName": "",
+  "ResourceIdTemplate": "arn:aws:sagemaker:region:account-id:domain/domain-id",
+  "Severity": "medium",
+  "ResourceType": "AwsSageMakerDomain",
+  "Description": "Check if SageMaker Studio domain is configured with VPC-only network access to prevent direct internet access.",
+  "Risk": "Without VPC-only access, SageMaker Studio users can access the internet directly, potentially exposing sensitive data or allowing unauthorized data exfiltration.",
+  "RelatedUrl": "https://docs.aws.amazon.com/sagemaker/latest/dg/studio-notebooks-and-internet-access.html",
+  "Remediation": {
+    "Code": {
+      "CLI": "",
+      "NativeIaC": "",
+      "Other": "",
+      "Terraform": ""
+    },
+    "Recommendation": {
+      "Text": "Configure SageMaker Studio domain with VPC-only network access type to ensure all traffic is routed through your VPC.",
+      "Url": "https://docs.aws.amazon.com/sagemaker/latest/dg/studio-notebooks-and-internet-access.html"
+    }
+  },
+  "Categories": [
+    "internet-exposed"
+  ],
+  "DependsOn": [],
+  "RelatedTo": [],
+  "Notes": ""
+}

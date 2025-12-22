@@ -1,0 +1,32 @@
+{
+  "Provider": "aws",
+  "CheckID": "sagemaker_domain_encryption_enabled",
+  "CheckTitle": "Check if SageMaker Studio domain has KMS encryption enabled",
+  "CheckType": [],
+  "ServiceName": "sagemaker",
+  "SubServiceName": "",
+  "ResourceIdTemplate": "arn:aws:sagemaker:region:account-id:domain/domain-id",
+  "Severity": "medium",
+  "ResourceType": "AwsSageMakerDomain",
+  "Description": "Check if SageMaker Studio domain has KMS encryption enabled for data at rest.",
+  "Risk": "Without KMS encryption, sensitive data stored in SageMaker Studio EFS volumes may be vulnerable to unauthorized access if storage is compromised.",
+  "RelatedUrl": "https://docs.aws.amazon.com/sagemaker/latest/dg/encryption-at-rest.html",
+  "Remediation": {
+    "Code": {
+      "CLI": "",
+      "NativeIaC": "",
+      "Other": "",
+      "Terraform": ""
+    },
+    "Recommendation": {
+      "Text": "Enable KMS encryption when creating the SageMaker Studio domain to protect data at rest.",
+      "Url": "https://docs.aws.amazon.com/sagemaker/latest/dg/encryption-at-rest.html"
+    }
+  },
+  "Categories": [
+    "encryption"
+  ],
+  "DependsOn": [],
+  "RelatedTo": [],
+  "Notes": ""
+}

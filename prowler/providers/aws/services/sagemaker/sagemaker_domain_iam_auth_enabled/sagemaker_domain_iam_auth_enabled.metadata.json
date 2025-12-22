@@ -1,0 +1,32 @@
+{
+  "Provider": "aws",
+  "CheckID": "sagemaker_domain_iam_auth_enabled",
+  "CheckTitle": "Check if SageMaker Studio domain uses IAM authentication",
+  "CheckType": [],
+  "ServiceName": "sagemaker",
+  "SubServiceName": "",
+  "ResourceIdTemplate": "arn:aws:sagemaker:region:account-id:domain/domain-id",
+  "Severity": "low",
+  "ResourceType": "AwsSageMakerDomain",
+  "Description": "Check if SageMaker Studio domain uses IAM authentication instead of SSO for fine-grained access control.",
+  "Risk": "SSO authentication may provide less granular access control compared to IAM, potentially allowing broader access than intended.",
+  "RelatedUrl": "https://docs.aws.amazon.com/sagemaker/latest/dg/onboard-iam.html",
+  "Remediation": {
+    "Code": {
+      "CLI": "",
+      "NativeIaC": "",
+      "Other": "",
+      "Terraform": ""
+    },
+    "Recommendation": {
+      "Text": "Consider using IAM authentication for SageMaker Studio domain to leverage fine-grained IAM policies for access control.",
+      "Url": "https://docs.aws.amazon.com/sagemaker/latest/dg/onboard-iam.html"
+    }
+  },
+  "Categories": [
+    "iam"
+  ],
+  "DependsOn": [],
+  "RelatedTo": [],
+  "Notes": ""
+}
