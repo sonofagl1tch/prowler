@@ -103,8 +103,8 @@ importers:
         specifier: 3.12.13
         version: 3.12.13(react-dom@19.2.2(react@19.2.2))(react@19.2.2)
       '@react-aria/ssr':
-        specifier: 3.9.4
-        version: 3.9.4(react@19.2.2)
+        specifier: 3.9.10
+        version: 3.9.10(react@19.2.2)
       '@react-aria/visually-hidden':
         specifier: 3.8.12
         version: 3.8.12(react-dom@19.2.2(react@19.2.2))(react@19.2.2)
@@ -3156,12 +3156,6 @@ packages:
 
   '@react-aria/ssr@3.9.10':
     resolution: {integrity: sha512-hvTm77Pf+pMBhuBm760Li0BVIO38jv1IBws1xFm1NoL26PU+fe+FMW5+VZWyANR6nYL65joaJKZqOdTQMkO9IQ==}
-    engines: {node: '>= 12'}
-    peerDependencies:
-      react: 19.2.2
-
-  '@react-aria/ssr@3.9.4':
-    resolution: {integrity: sha512-4jmAigVq409qcJvQyuorsmBR4+9r3+JEC60wC+Y0MZV0HCtTmm8D9guYXlJMdx0SSkgj0hHAyFm/HvPNFofCoQ==}
     engines: {node: '>= 12'}
     peerDependencies:
       react: 19.2.2
@@ -12496,11 +12490,6 @@ snapshots:
       react-dom: 19.2.2(react@19.2.2)
 
   '@react-aria/ssr@3.9.10(react@19.2.2)':
-    dependencies:
-      '@swc/helpers': 0.5.17
-      react: 19.2.2
-
-  '@react-aria/ssr@3.9.4(react@19.2.2)':
     dependencies:
       '@swc/helpers': 0.5.17
       react: 19.2.2
