@@ -106,7 +106,7 @@
   },
   "devDependencies": {
     "@iconify/react": "5.2.1",
-    "@playwright/test": "1.56.1",
+    "@playwright/test": "1.57.0",
     "@types/d3": "7.4.3",
     "@types/geojson": "7946.0.16",
     "@types/node": "20.5.7",
