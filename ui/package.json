@@ -109,7 +109,7 @@
     "@playwright/test": "1.56.1",
     "@types/d3": "7.4.3",
     "@types/geojson": "7946.0.16",
-    "@types/node": "20.5.7",
+    "@types/node": "20.19.27",
     "@types/react": "19.1.13",
     "@types/react-dom": "19.1.9",
     "@types/topojson-client": "3.1.5",
