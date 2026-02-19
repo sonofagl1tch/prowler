@@ -134,7 +134,7 @@
     "autoprefixer": "10.4.19",
     "babel-plugin-react-compiler": "1.0.0",
     "dotenv-expand": "12.0.3",
-    "eslint": "9.39.2",
+    "eslint": "10.0.0",
     "eslint-config-next": "16.1.6",
     "eslint-config-prettier": "10.1.5",
     "eslint-plugin-import": "2.32.0",
